@@ -2,6 +2,16 @@ service: API-Factory-serverless-api
 
 frameworkVersion: "3"
 
+custom:
+  serverless-offline:
+    httpPort: 4000
+    lambdaPort: 4001
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
 functions:
   getRunner:
     handler: src/apiGetRunner.handler
@@ -9,3 +19,12 @@ functions:
       - http:
           path: /apiRunner
           method: get
+  testRunner:
+    handler: src/apiGetRunner.handler
+    events:
+      - http:
+          path: /testRunner
+          method: get
+
+plugins:
+  - serverless-offline

@@ -1,0 +1,11 @@
+service: API-Factory-serverless-api
+
+frameworkVersion: "3"
+
+functions:
+  getRunner:
+    handler: src/apiGetRunner.handler
+    events:
+      - http:
+          path: /apiRunner
+          method: get

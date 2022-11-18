@@ -1,0 +1,24 @@
+{
+  "name": "api-factory-serverless-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "^2.1257.0",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "serverless-offline": "^11.4.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "vm2": "^3.9.11"
+  }
+}

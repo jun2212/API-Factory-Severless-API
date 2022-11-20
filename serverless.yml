@@ -9,22 +9,52 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   lambdaHashingVersion: 20201221
+  environment:
+  stage: production
+  region: ap-northeast-2
+  iam:
+    role: DefaultRole
+
+resources:
+  Resources:
+    DefaultRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-${self:stage, "dev"}-LambdaExcutionRole
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+          - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+        Policies:
+          - PolicyName: myPolicyName
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:*
+                    - ssm:*
+                    - execute-api:*
+                    - secretsmanager:*
+                    - lambda:*
+                  Resource: "*"
 
 functions:
-  getRunner:
-    handler: src/apiGetRunner.handler
+  apiRunner:
+    handler: src/apiRunner.apiHandler
     events:
-      - http:
+      - httpApi:
           path: /apiRunner
-          method: get
-  testRunner:
-    handler: src/apiGetRunner.handler
-    events:
-      - http:
-          path: /testRunner
-          method: get
+          method: "*"
 
 plugins:
   - serverless-offline

@@ -12,5 +12,6 @@ const findUserFunction = async (functionKey) => {
 
   return await dynamoDB.get(params).promise();
 };
+const setDynamoDbCustomLibrary = () => {};
 
-module.exports = findUserFunction;
+module.exports = { findUserFunction, setDynamoDbCustomLibrary };

@@ -1,6 +1,9 @@
 const { NodeVM } = require("vm2");
-const findUserFunction = require("./lib/dynamoDbUtil");
-const setGeneratePresignedUrl = require("./lib/generatePresignedUrl");
+const {
+  findUserFunction,
+  setDynamoDbCustomLibrary,
+} = require("./lib/dynamoDbUtil");
+const setGeneratePresignedUrl = require("./lib/setGeneratePresignedUrl");
 
 const handleResponse = (status, body) => {
   return {

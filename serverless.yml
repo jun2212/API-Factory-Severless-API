@@ -51,6 +51,7 @@ resources:
 functions:
   apiRunner:
     handler: src/apiRunner.apiHandler
+    timeout: 10
     events:
       - httpApi:
           path: /apiRunner

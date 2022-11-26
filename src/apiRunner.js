@@ -3,7 +3,7 @@ const {
   findUserFunction,
   setDynamoDbCustomLibrary,
 } = require("./lib/dynamoDbUtil");
-const setGeneratePresignedUrl = require("./lib/setGeneratePresignedUrl");
+const setGenerateStorageUrl = require("./lib/setGeneratePresignedUrl");
 
 const handleResponse = (status, body) => {
   return {
@@ -36,10 +36,10 @@ const apiHandler = async (event) => {
     return handleResponse(400, { error: "status 400 : Incorrect key" });
   }
 
-  const { method, code, user_id } = Item;
+  const { method, code, user_key } = Item;
 
   if (http.method !== method) {
-    return handleResponse(400, { error: "status 400 : Incorrect method" });
+    return handleResponse(405, { error: "status 405 : Incorrect method" });
   }
 
   let textParameters = "";
@@ -56,16 +56,21 @@ const apiHandler = async (event) => {
     parameters.forEach((param) => {
       if (typeof param === "string") {
         textParameters += `"${param}",`;
+      } else if (typeof param === "object") {
+        textParameters += `${JSON.stringify(param)},`;
       } else {
         textParameters += `${param},`;
       }
     });
   }
 
-  const generatePresignedUrl = setGeneratePresignedUrl(user_id);
+  const generateStorageUrl = setGenerateStorageUrl(user_key);
+  const { getDbData, setDbData } = setDynamoDbCustomLibrary(user_key);
 
   const sandbox = {
-    generatePresignedUrl,
+    generateStorageUrl,
+    getDbData,
+    setDbData,
   };
 
   const vm = new NodeVM({

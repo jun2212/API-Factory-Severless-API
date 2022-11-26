@@ -49,12 +49,29 @@ resources:
                   Resource: "*"
 
 functions:
-  apiRunner:
+  apiRunner512m:
     handler: src/apiRunner.apiHandler
-    timeout: 10
+    memorySize: 512
+    timeout: 15
     events:
       - httpApi:
-          path: /apiRunner
+          path: /apiRunner512m
+          method: "*"
+  apiRunner1024m:
+    handler: src/apiRunner.apiHandler
+    memorySize: 1024
+    timeout: 15
+    events:
+      - httpApi:
+          path: /apiRunner1024m
+          method: "*"
+  apiRunner2048m:
+    handler: src/apiRunner.apiHandler
+    memorySize: 2048
+    timeout: 15
+    events:
+      - httpApi:
+          path: /apiRunner2048m
           method: "*"
 
 plugins:
